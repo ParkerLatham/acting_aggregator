@@ -1,0 +1,128 @@
+# Casting Digest configuration. Edit this file; no code changes needed.
+# Matching is case-insensitive and whole-word ("GA" will not match "again").
+
+# --- Politeness -------------------------------------------------------------
+# Identify the tool honestly. If you want site owners to be able to reach you,
+# add a contact URL or address here (kept out of the repo by your own choice).
+user_agent: "CastingDigestBot/0.1 (personal, non-commercial hobby project)"
+request_delay_seconds: 3     # minimum pause between requests to the same site
+request_timeout_seconds: 20
+max_age_days: 45             # ignore listings dated more than this many days in the past
+
+# --- Sources ----------------------------------------------------------------
+# Each source can be switched off without touching code.
+sources:
+  auditionsfree:
+    enabled: true
+    # Free listing site with a public JSON API. tag_id 78 = its "Atlanta" tag.
+    tag_id: 78
+    max_posts: 30
+  localist_calendars:
+    enabled: true
+    # University event calendars built on the Localist platform. Their robots.txt
+    # explicitly allows the /search/events.xml export we use.
+    calendars:
+      - name: "Georgia State University Calendar"
+        base_url: "https://calendar.gsu.edu"
+      - name: "Kennesaw State University Calendar"
+        base_url: "https://calendar.kennesaw.edu"
+    search_terms: ["audition", "casting call", "actors"]
+  alliance_theatre:
+    enabled: true
+    # Alliance Theatre (Atlanta) publishes events through a public WordPress API.
+    search_terms: ["audition", "casting"]
+
+# --- Include terms ----------------------------------------------------------
+include:
+  # A listing must mention at least one of these.
+  # Kept deliberately specific: broader words like "talent" or "background"
+  # match career fairs and classroom series on university calendars.
+  role_terms:
+    - actor
+    - actors
+    - actress
+    - actresses
+    - casting
+    - audition
+    - auditions
+    - extras
+    - background actor
+    - background actors
+    - cast call
+    - open call
+  # Phrases that mean "not an acting role" (music recitals, talent shows,
+  # career fairs...). Matching listings are excluded.
+  noise_terms:
+    - recital
+    - concert
+    - got talent
+    - talent show
+    - talent night
+    - open classroom
+    - career fair
+    - job fair
+    - information session
+    - school of music
+    - music audition
+    - admission
+    # Reality/game-show participants and audience members, not acting roles
+    - contestant
+    - contestants
+    - studio audience
+    - audience members
+    - game show
+    - singles
+    - makeover
+    - real people
+    - real families
+    - small businesses
+  # Listings from sources not already Atlanta-specific must also mention one of
+  # these. (University calendars are treated as local; see sources.py.)
+  location_terms:
+    - Atlanta
+    - GA
+    - Georgia
+    - Decatur
+    - Kennesaw
+  # Soft signal only: matching listings get an "age match" badge.
+  age_terms:
+    - "18+"
+    - "18-25"
+    - "18-30"
+    - "20s"
+    - "early 20s"
+    - "early twenties"
+    - "ages 18"
+    - "ages 20"
+    - "college age"
+    - "young adult"
+
+# --- Exclude (hard drop) ----------------------------------------------------
+# Matching listings are removed from the digest. Excluded titles and the term
+# that matched are written to the log so nothing disappears unexplained.
+red_flags:
+  - pay to audition
+  - registration fee
+  - send money
+  - upfront fee
+  - pay for headshots
+
+# --- Flag (kept, but shown in "Flagged / check carefully") -------------------
+# Not necessarily bad; just worth reading closely before replying.
+flag_terms:
+  - no pay      # unpaid student/indie work can be good portfolio material,
+  - unpaid      # so these are flagged for review rather than dropped.
+  - deferred pay
+  - copy credit
+  - copy/credit
+  - for exposure
+  - nudity
+  - topless
+  - whatsapp
+  - telegram
+  - dm me
+  - cash app
+  - venmo
+  - gift card
+  - must pay
+  - training fee

@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Generated at run time (personal state and output)
+seen.json
+digest.html
+digest.csv
+casting_digest.log
